@@ -129,6 +129,48 @@
       </div>
     </div>
   </nav>
+  {% else %}
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="main-navbar">
+    <div class="container px-4">
+      <a class="navbar-brand fw-bold" href="/">
+        <i class="bi bi-award-fill me-2 text-warning"></i>BecasUni
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#publicNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="publicNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#inicio">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#detalles">Detalles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#requisitos">Requisitos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#cronograma">Cronograma</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#faq">FAQ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contacto">Contacto</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-2">
+          <a href="{% url 'usuarios:login' %}" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar sesión
+          </a>
+          <a href="{% url 'usuarios:registro' %}" class="btn btn-gold btn-sm">
+            <i class="bi bi-person-plus me-1"></i>Registrarse
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
   {% endif %}
 
   <!-- ── Mensajes de Django ──────────────────── -->

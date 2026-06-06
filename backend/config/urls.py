@@ -8,8 +8,8 @@ urlpatterns = [
     # Admin de Django
     path('admin/', admin.site.urls),
 
-    # Redirección de raíz al dashboard o login
-    path('', RedirectView.as_view(url='/dashboard/', permanent=False)),
+    # Landing page (página de inicio pública)
+    path('', include('apps.landing.urls', namespace='landing')),
 
     # Apps
     path('usuarios/', include('apps.usuarios.urls', namespace='usuarios')),

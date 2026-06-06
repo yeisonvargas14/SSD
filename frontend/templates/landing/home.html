@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+{% block title %}Inicio - Programa de Becas Universitarias{% endblock %}
+
+{% block main_class %}{% endblock %}
+
+{% block content %}
+<!-- Smooth scrolling script -->
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+  .hero-section {
+    background: linear-gradient(135deg, var(--bg-navy) 0%, #0d1e3d 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .timeline-badge {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-navy-light);
+    border: 2px solid var(--accent-gold);
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    z-index: 2;
+  }
+  .timeline-item {
+    position: relative;
+    padding-left: 3rem;
+    padding-bottom: 2rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 40px;
+    bottom: 0;
+    width: 2px;
+    background: rgba(212, 175, 55, 0.2);
+  }
+  .timeline-item:last-child::before {
+    display: none;
+  }
+  .timeline-item .timeline-badge {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .faq-card {
+    border: 1px solid rgba(255,255,255,0.05);
+    background: var(--bg-navy-light);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .faq-button {
+    background: transparent;
+    color: #fff;
+    border: 0;
+    padding: 1.25rem;
+    font-weight: 600;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-button:not(.collapsed) {
+    color: var(--accent-gold);
+    background: rgba(212, 175, 55, 0.05);
+  }
+  .faq-button::after {
+    font-family: "bootstrap-icons";
+    content: "\f282";
+    transition: transform 0.2s;
+  }
+  .faq-button:not(.collapsed)::after {
+    transform: rotate(180deg);
+  }
+  .faq-body {
+    padding: 1.25rem;
+    color: rgba(255,255,255,0.7);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+</style>
+
+<!-- ── Sección Hero ─────────────────────────────── -->
+<section id="inicio" class="hero-section text-white py-5 d-flex align-items-center" style="min-height: 80vh;">
+  <div class="container px-4">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7 text-center text-lg-start">
+        <span class="badge bg-warning text-dark fw-bold mb-3 px-3 py-2 text-uppercase tracking-wider">Convocatoria Abierta</span>
+        <h1 class="display-4 fw-extrabold mb-3">
+          Impulsa tu futuro con la <br><span class="gold-text">Beca de Excelencia Académica</span>
+        </h1>
+        <p class="lead mb-4 text-white-50">
+          Ofrecemos cobertura de matrícula y apoyos de sostenimiento a estudiantes con desempeño excepcional y retos socioeconómicos. ¡Tu dedicación merece ser premiada!
+        </p>
+        <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-lg-start gap-3">
+          {% if user.is_authenticated %}
+            <a href="{% url 'postulantes:panel' %}" class="btn btn-gold btn-lg px-4 py-3 fw-bold">
+              <i class="bi bi-speedometer2 me-2"></i>Ir a mi Panel
+            </a>
+          {% else %}
+            <a href="{% url 'usuarios:registro' %}" class="btn btn-gold btn-lg px-4 py-3 fw-bold shadow-lg">
+              <i class="bi bi-cursor-fill me-2"></i>Postular ahora
+            </a>
+            <a href="#detalles" class="btn btn-outline-light btn-lg px-4 py-3">
+              Conocer más
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block text-center">
+        <i class="bi bi-mortarboard gold-text" style="font-size: 14rem; filter: drop-shadow(0px 10px 20px rgba(212, 175, 55, 0.3));"></i>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Sección Detalles ─────────────────────────── -->
+<section id="detalles" class="py-5 bg-light text-dark">
+  <div class="container px-4 py-4">
+    <div class="text-center mb-5">
+      <h2 class="h1 fw-bold text-navy">Detalles del Programa de Becas</h2>
+      <p class="text-muted">Conoce los beneficios y cobertura que ofrece nuestra institución</p>
+    </div>
+    
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0 p-4">
+          <div class="d-flex align-items-center mb-3">
+            <div class="bg-primary-subtle text-primary p-3 rounded-3 me-3">
+              <i class="bi bi-lightning-charge-fill fs-3"></i>
+            </div>
+            <h3 class="h5 fw-bold mb-0">Cobertura Total</h3>
+          </div>
+          <p class="text-muted mb-0">Exención del 100% en el costo de matrícula del semestre para los postulantes seleccionados con mayor puntaje.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0 p-4">
+          <div class="d-flex align-items-center mb-3">
+            <div class="bg-warning-subtle text-warning p-3 rounded-3 me-3">
+              <i class="bi bi-wallet2 fs-3"></i>
+            </div>
+            <h3 class="h5 fw-bold mb-0">Subsidio de Apoyo</h3>
+          </div>
+          <p class="text-muted mb-0">Apoyo económico complementario para transporte y materiales de estudio a estudiantes de estratos 1 y 2.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0 p-4">
+          <div class="d-flex align-items-center mb-3">
+            <div class="bg-success-subtle text-success p-3 rounded-3 me-3">
+              <i class="bi bi-arrow-repeat fs-3"></i>
+            </div>
+            <h3 class="h5 fw-bold mb-0">Renovación Semestral</h3>
+          </div>
+          <p class="text-muted mb-0">La beca es renovable cada semestre manteniendo un promedio igual o superior a 4.0 y créditos aprobados completos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Sección Requisitos ───────────────────────── -->
+<section id="requisitos" class="py-5 text-white" style="background: var(--bg-navy);">
+  <div class="container px-4 py-4">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <h2 class="h1 fw-bold mb-4">Requisitos de Postulación</h2>
+        <p class="text-white-50 mb-4">El proceso de asignación se evalúa de manera automática bajo criterios objetivos de excelencia académica y condición socioeconómica.</p>
+        
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex gap-3">
+            <i class="bi bi-check-circle-fill gold-text fs-4 flex-shrink-0"></i>
+            <div>
+              <h4 class="h6 fw-bold mb-1">Promedio Mínimo Requerido</h4>
+              <p class="text-white-50 mb-0">Tener un promedio acumulado superior o igual a 3.0 (con base en escala de 0.0 a 5.0).</p>
+            </div>
+          </div>
+          <div class="d-flex gap-3">
+            <i class="bi bi-check-circle-fill gold-text fs-4 flex-shrink-0"></i>
+            <div>
+              <h4 class="h6 fw-bold mb-1">Créditos Universitarios</h4>
+              <p class="text-white-50 mb-0">Haber cursado y aprobado al menos el mínimo de créditos correspondientes a su semestre en curso.</p>
+            </div>
+          </div>
+          <div class="d-flex gap-3">
+            <i class="bi bi-check-circle-fill gold-text fs-4 flex-shrink-0"></i>
+            <div>
+              <h4 class="h6 fw-bold mb-1">Criterio Socioeconómico</h4>
+              <p class="text-white-50 mb-0">Pertenecer a estratos socioeconómicos del 1 al 4 y demostrar ingresos familiares mensuales dentro del límite parametrizado.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card bg-navy-light text-white p-4 border-0">
+          <h3 class="h5 fw-bold mb-3 gold-text"><i class="bi bi-calculator me-2"></i>Cálculo de Puntaje Automático</h3>
+          <p class="small text-white-50">Nuestra fórmula estandarizada garantiza total transparencia en la asignación:</p>
+          <div class="border-start border-warning ps-3 my-3">
+            <div class="fw-semibold text-warning">Puntaje Académico (60%)</div>
+            <div class="text-white-50 small">Puntos por Promedio acumulado (hasta 40) + Créditos cursados (hasta 20).</div>
+          </div>
+          <div class="border-start border-warning ps-3 my-3">
+            <div class="fw-semibold text-warning">Puntaje Socioeconómico (40%)</div>
+            <div class="text-white-50 small">Puntos calculados a partir de los ingresos del hogar (hasta 25) + Estrato social (hasta 15).</div>
+          </div>
+          <p class="small text-white-50 mb-0">El puntaje de corte para la aprobación final es determinado por la disponibilidad presupuestal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Sección Cronograma ───────────────────────── -->
+<section id="cronograma" class="py-5 bg-light text-dark">
+  <div class="container px-4 py-4">
+    <div class="text-center mb-5">
+      <h2 class="h1 fw-bold text-navy">Cronograma del Proceso</h2>
+      <p class="text-muted">No olvides tener en cuenta estas fechas clave del calendario académico</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="ps-2">
+          {% for item in cronograma %}
+          <div class="timeline-item">
+            <div class="timeline-badge">{{ forloop.counter }}</div>
+            <div class="card border-0 shadow-sm p-4">
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h4 class="h6 fw-bold text-navy mb-0">{{ item.evento }}</h4>
+                <span class="badge bg-gold text-dark fw-bold">{{ item.fecha|date:"d \d\e F, Y" }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Sección FAQ ──────────────────────────────── -->
+<section id="faq" class="py-5 text-white" style="background: var(--bg-navy-light);">
+  <div class="container px-4 py-4">
+    <div class="text-center mb-5">
+      <h2 class="h1 fw-bold">Preguntas Frecuentes</h2>
+      <p class="text-white-50">Resuelve rápidamente tus dudas sobre la postulación</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="d-flex flex-column gap-3">
+          
+          <div class="faq-card">
+            <button class="faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+              ¿Cómo sé si cumplo los requisitos académicos?
+            </button>
+            <div id="faq1" class="collapse" data-bs-parent="#faq">
+              <div class="faq-body">
+                Debes tener un promedio acumulado de al menos 3.0 y tener aprobados los créditos correspondientes a tu semestre. Puedes revisar tus datos en tu portal académico antes de postularte.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+              ¿Puedo postular si soy de otra universidad o institución externa?
+            </button>
+            <div id="faq2" class="collapse" data-bs-parent="#faq">
+              <div class="faq-body">
+                Actualmente, las becas del programa están dirigidas exclusivamente a estudiantes activos matriculados en los programas de pregrado de nuestra universidad asociada.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+              ¿Qué documentos o soportes necesito subir?
+            </button>
+            <div id="faq3" class="collapse" data-bs-parent="#faq">
+              <div class="faq-body">
+                Para el registro inicial solo debes completar los formularios de datos personales, académicos y socioeconómicos en el panel. En caso de ser seleccionado para auditoría, se te solicitará por correo adjuntar certificados de notas y recibos de servicios públicos.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+              ¿Cuánto tiempo tarda la evaluación de las solicitudes?
+            </button>
+            <div id="faq4" class="collapse" data-bs-parent="#faq">
+              <div class="faq-body">
+                Una vez cerrada la convocatoria, el algoritmo de evaluación procesa las postulaciones automáticamente. Los resultados preliminares se publican y revisan en un plazo aproximado de una semana.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-card">
+            <button class="faq-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+              ¿Qué pasa si mi solicitud es rechazada?
+            </button>
+            <div id="faq5" class="collapse" data-bs-parent="#faq">
+              <div class="faq-body">
+                Si tu solicitud es rechazada por promedio insuficiente o por no alcanzar el puntaje de corte de becas, podrás volver a postularte en el siguiente periodo de convocatoria siempre y cuando cumplas con los parámetros vigentes.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Sección Contacto ─────────────────────────── -->
+<section id="contacto" class="py-5 bg-light text-dark">
+  <div class="container px-4 py-4">
+    <div class="text-center mb-5">
+      <h2 class="h1 fw-bold text-navy">Contacto y Soporte</h2>
+      <p class="text-muted">¿Tienes alguna inquietud o inconveniente? Escríbenos directamente</p>
+    </div>
+
+    <div class="row g-5 justify-content-center">
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-sm p-4 h-100">
+          <h3 class="h5 fw-bold mb-4 text-navy">Información de Soporte</h3>
+          <div class="d-flex align-items-center mb-3">
+            <div class="bg-primary-subtle text-primary p-3 rounded-circle me-3">
+              <i class="bi bi-envelope-fill fs-5"></i>
+            </div>
+            <div>
+              <div class="text-muted small">Correo Electrónico</div>
+              <a href="mailto:becas@universidad.edu" class="fw-semibold text-navy text-decoration-none">becas@universidad.edu</a>
+            </div>
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <div class="bg-success-subtle text-success p-3 rounded-circle me-3">
+              <i class="bi bi-telephone-fill fs-5"></i>
+            </div>
+            <div>
+              <div class="text-muted small">Línea de Atención</div>
+              <span class="fw-semibold text-navy">+57 (601) 321-4567</span>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <div class="bg-warning-subtle text-warning p-3 rounded-circle me-3">
+              <i class="bi bi-geo-alt-fill fs-5"></i>
+            </div>
+            <div>
+              <div class="text-muted small">Oficina Física</div>
+              <span class="fw-semibold text-navy">Edificio Administrativo, Oficina 204</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm p-4">
+          <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="contact_name" class="form-label fw-semibold">Nombre Completo</label>
+              <input type="text" name="nombre" id="contact_name" class="form-control" required placeholder="Ingresa tu nombre">
+            </div>
+            <div class="mb-3">
+              <label for="contact_email" class="form-label fw-semibold">Correo Electrónico</label>
+              <input type="email" name="correo" id="contact_email" class="form-control" required placeholder="ejemplo@correo.com">
+            </div>
+            <div class="mb-3">
+              <label for="contact_message" class="form-label fw-semibold">Mensaje o Consulta</label>
+              <textarea name="mensaje" id="contact_message" rows="4" class="form-control" required placeholder="Escribe tu consulta aquí..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold w-100 py-3 fw-bold"><i class="bi bi-send-fill me-2"></i>Enviar Mensaje</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
